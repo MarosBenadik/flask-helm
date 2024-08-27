@@ -10,8 +10,9 @@ service:
   port: 5000
   targetPort: 5000  # This will be ignored if Ingress is used
 
-env: []
-
+env:
+  - name: FLASK_VERSION
+    value: default
 ingress:
   enabled: true
   className: localport
