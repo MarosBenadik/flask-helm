@@ -1,0 +1,41 @@
+replicaCount: 2
+
+image:
+  repository: mbenadik/flaskapp
+  pullPolicy: Always
+  tag: latest
+
+service:
+  type: ClusterIP
+  port: 5000
+  targetPort: 5000  # This will be ignored if Ingress is used
+
+env:
+  - name: FLASK_ENV
+    value: test
+  - name: FLASK_COLOR
+    value: green
+
+ingress:
+  enabled: true
+  className: localport
+  annotations: 
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+  hosts:
+    - host: 192.168.56.108
+      paths:
+        - path: /green(.*)
+          pathType: ImplementationSpecific
+  tls: []
+
+resources: {}
+
+serviceAccount:
+  create: true
+  name: ""
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
