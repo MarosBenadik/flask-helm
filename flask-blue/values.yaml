@@ -15,8 +15,6 @@ env:
     value: test
   - name: FLASK_COLOR
     value: blue
-  - name: FLASK_VERSION
-    value: default
 
 ingress:
   enabled: true
