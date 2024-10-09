@@ -30,9 +30,14 @@ spec:
         volumeMounts:
         - name: mysql-persistent-storage
           mountPath: /var/lib/mysql
+        - name: mysql-init-scripts
+          mountPath: /docker-entrypoint-initdb.d
       volumes:
       - name: mysql-persistent-storage
         persistentVolumeClaim:
           claimName: {{ .Values.db.name }}-pvc-{{ .Values.color }}
+      - name: mysql-init-scripts
+        configMap:
+          name: mysql-init-scripts  # Reference the ConfigMap here
       imagePullSecrets:
       - name: my-dockerhub-secret  # Reference the secret here

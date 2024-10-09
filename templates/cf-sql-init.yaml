@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-init-scripts
+data:
+  init.sql: |
+    CREATE DATABASE flaskappdb;
+    
+    USE flaskappdb;
+
+    CREATE TABLE users (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      username VARCHAR(50) NOT NULL UNIQUE,
+      email VARCHAR(100) NOT NULL UNIQUE,
+      password VARCHAR(255) NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+    
+
+    CREATE TABLE posts (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL,
+        title VARCHAR(100) NOT NULL,
+        content TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+
+    CREATE TABLE comments (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        post_id INT NOT NULL,
+        user_id INT NOT NULL,
+        content TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    );
+
+    INSERT INTO users (id, username, email, password) VALUES
+    (1, 'johndoe', 'johndoe@gmail.com', 'password123'),
+    (2, 'janesmith', 'janesmith@yahoo.com', 's3cur3pass!'),
+    (3, 'michaelbrown', 'michaelb@hotmail.com', 'michael@2024'),
+    (4, 'emilywhite', 'emilyw@gmail.com', 'EWhite#88'),
+    (5, 'davidjohnson', 'davidj@yahoo.com', 'Passw0rd$5'),
+    (6, 'sarahthompson', 'saraht@gmail.com', 'thompson123!'),
+    (7, 'robertclark', 'robertc@hotmail.com', 'R0bertC@rk'),
+    (8, 'lindawilliams', 'lindaw@yahoo.com', 'Linda@99'),
+    (9, 'chrisanderson', 'chrisand@gmail.com', 'Chr!s1987'),
+    (10, 'stephenlee', 'stephenlee@hotmail.com', 'Lee$5TepHen');
+
+    INSERT INTO posts (id, user_id, title, content) VALUES
+    (1, 1, 'My Journey into Web Development', 'Today, I started learning Flask. It’s fascinating how much you can do with Python!'),
+    (2, 2, 'Healthy Lifestyle Tips', 'Here are some simple ways to maintain a healthy lifestyle: drink water, eat vegetables, and stay active.'),
+    (3, 3, 'The Future of AI', 'Artificial Intelligence is growing rapidly. In the next few years, it will revolutionize multiple industries.'),
+    (4, 4, 'Traveling to Japan', 'Last month, I visited Japan. The culture is incredible, and I loved every part of the trip, especially Tokyo.'),
+    (5, 5, 'Learning Cloud Computing', 'I have been learning about AWS and Azure recently. Cloud platforms are the future of IT infrastructure.'),
+    (6, 6, 'Cooking the Perfect Steak', 'Here are the steps to cooking the perfect medium-rare steak: season it well, use a hot pan, and let it rest.'),
+    (7, 7, 'My First Marathon', 'I just completed my first marathon! It was tough, but crossing that finish line was worth every second of training.'),
+    (8, 8, 'Photography Tips for Beginners', 'If you’re starting with photography, here are a few tips: pay attention to lighting, and practice your framing.'),
+    (9. 9, 'Starting a Tech Podcast', 'I’m planning to start my own tech podcast soon. The world of technology is evolving so fast, there’s a lot to talk about.'),
+    (10, 10, 'Top 10 Coding Practices', 'Every developer should follow these coding practices: write readable code, use comments wisely, and test your code.');
+
+    INSERT INTO comments (post_id, user_id, content) VALUES
+    (1, 2, 'Great post! I’ve been thinking about learning Flask as well.'),
+    (1, 3, 'Web development is exciting. Have you tried Django?'),
+    (2, 4, 'These tips are really helpful. Thanks for sharing!'),
+    (2, 5, 'I’ll definitely start incorporating more vegetables into my diet.'),
+    (3, 6, 'AI is really going to change the world. The possibilities are endless.'),
+    (4, 7, 'Japan is on my travel list! Thanks for sharing your experience.'),
+    (5, 8, 'Cloud computing has been on my radar too. AWS is powerful!'),
+    (6, 9, 'I tried your steak recipe last night, and it turned out great.'),
+    (7, 10, 'Running a marathon takes a lot of dedication. Congrats on finishing!'),
+    (8, 1, 'Photography has always interested me. I’ll try out your tips.'),
+    (9, 3, 'Good luck with your podcast! I’d love to listen when it’s up.');
