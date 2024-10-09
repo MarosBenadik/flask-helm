@@ -43,7 +43,7 @@ spec:
                   fieldPath: metadata.name
             # MySQL environment variables
             - name: MYSQL_HOST
-              value: "{{ .Values.db.name }}-service" # Name of your MySQL service in Kubernetes
+              value: "{{ .Values.db.name }}-service-{{ .Values.color }}" # Name of your MySQL service in Kubernetes
             - name: MYSQL_PORT
               value: "3306"
             - name: MYSQL_DATABASE
