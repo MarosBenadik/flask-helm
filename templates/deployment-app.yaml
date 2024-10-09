@@ -41,10 +41,23 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+            # MySQL environment variables
+            - name: MYSQL_HOST
+              value: "mysql-service" # Name of your MySQL service in Kubernetes
+            - name: MYSQL_PORT
+              value: "3306"
+            - name: MYSQL_DATABASE
+              value: "{{ .Values.mysql.database }}" # Your MySQL database name
+            - name: MYSQL_USER
+              value: "{{ .Values.mysql.user }}" # Your MySQL user
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret # Kubernetes Secret for MySQL credentials
+                  key: mysql-root-password
           {{- range $env := .Values.env }}
             - name: {{ $env.name }}
               value: {{ $env.value | quote }}
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-
