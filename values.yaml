@@ -4,7 +4,8 @@ image:
   repository: mbenadik/flaskapp
   pullPolicy: Always
   tag: latest
-
+app:
+  version: 2.0.1
 service:
   type: ClusterIP
   port: 5000
