@@ -34,3 +34,5 @@ spec:
       - name: mysql-persistent-storage
         persistentVolumeClaim:
           claimName: {{ .Values.db.name }}-pvc-{{ .Values.color }}
+      imagePullSecrets:
+      - name: my-dockerhub-secret  # Reference the secret here
