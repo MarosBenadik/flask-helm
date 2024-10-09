@@ -16,7 +16,7 @@ spec:
         color: {{ .Values.color }}
     spec:
       containers:
-      - image: mysql:5.7
+      - image: mysql:{{ .Values.db.version }}
         name: mysql
         env:
         - name: MYSQL_ROOT_PASSWORD
