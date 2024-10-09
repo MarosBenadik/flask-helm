@@ -12,7 +12,7 @@ service:
 color: blue
 env:
   - name: FLASK_ENV
-    value: test
+    value: prod
   - name: FLASK_COLOR
     value: blue
 
