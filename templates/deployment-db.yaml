@@ -1,11 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.db.name }}-deployment
+  name: {{ .Values.db.name }}-deployment-{{ .Values.color }}
 spec:
   selector:
     matchLabels:
       app: mysql
+      color: {{ .Values.color }}
   strategy:
     type: {{ .Values.db.strategy }}
   template:
