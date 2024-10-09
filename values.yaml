@@ -13,6 +13,7 @@ service:
 db:
   name: mysql-db
   password: cm9vdA
+  user: root
   strategy: Recreate
 
 env:

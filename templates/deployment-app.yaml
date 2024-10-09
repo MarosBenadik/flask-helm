@@ -47,9 +47,9 @@ spec:
             - name: MYSQL_PORT
               value: "3306"
             - name: MYSQL_DATABASE
-              value: "{{ .Values.mysql.database }}" # Your MySQL database name
+              value: "{{ .Values.db.name }}" # Your MySQL database name
             - name: MYSQL_USER
-              value: "{{ .Values.mysql.user }}" # Your MySQL user
+              value: "{{ .Values.db.user }}" # Your MySQL user
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
