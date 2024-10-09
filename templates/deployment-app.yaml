@@ -47,7 +47,7 @@ spec:
             - name: MYSQL_PORT
               value: "3306"
             - name: MYSQL_DATABASE
-              value: "{{ .Values.db.name }}" # Your MySQL database name
+              value: "{{ .Values.db.dbname }}" # Your MySQL database name
             - name: MYSQL_USER
               value: "{{ .Values.db.user }}" # Your MySQL user
             - name: MYSQL_PASSWORD
