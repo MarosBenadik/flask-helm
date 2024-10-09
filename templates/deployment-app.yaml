@@ -72,6 +72,8 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.db.name }}-secret-{{ .Values.color }} # Kubernetes Secret for MySQL credentials
                   key: mysql-root-password
+            - name: FLASK_VERSION
+              value: {{ .Values.app.version }}
           {{- range $env := .Values.env }}
             - name: {{ $env.name }}
               value: {{ $env.value | quote }}
