@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+-apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.db.name }}-deployment-{{ .Values.color }}
@@ -22,7 +22,7 @@ spec:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.db.name }}-secret
+              name: {{ .Values.db.name }}-secret-{{ .Values.color }}
               key: mysql-root-password
         ports:
         - containerPort: 3306
@@ -33,4 +33,4 @@ spec:
       volumes:
       - name: mysql-persistent-storage
         persistentVolumeClaim:
-          claimName: {{ .Values.db.name }}-pvc
+          claimName: {{ .Values.db.name }}-pvc-{{ .Values.color }}
