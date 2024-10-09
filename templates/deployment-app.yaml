@@ -43,7 +43,7 @@ spec:
                   fieldPath: metadata.name
             # MySQL environment variables
             - name: MYSQL_HOST
-              value: "mysql-service" # Name of your MySQL service in Kubernetes
+              value: "{{ .Values.db.name }}-service" # Name of your MySQL service in Kubernetes
             - name: MYSQL_PORT
               value: "3306"
             - name: MYSQL_DATABASE
@@ -53,7 +53,7 @@ spec:
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.db.user }}secret # Kubernetes Secret for MySQL credentials
+                  name: {{ .Values.db.name }}-secret # Kubernetes Secret for MySQL credentials
                   key: mysql-root-password
           {{- range $env := .Values.env }}
             - name: {{ $env.name }}

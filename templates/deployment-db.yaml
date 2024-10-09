@@ -24,7 +24,7 @@ spec:
               key: mysql-root-password
         ports:
         - containerPort: 3306
-          name: mysql
+          name: {{ .Values.db.name }}
         volumeMounts:
         - name: mysql-persistent-storage
           mountPath: /var/lib/mysql
