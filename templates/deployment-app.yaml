@@ -61,3 +61,5 @@ spec:
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      imagePullSecrets:
+      - name: my-dockerhub-secret  # Reference the secret here
