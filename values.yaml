@@ -16,6 +16,7 @@ db:
   password: cm9vdA==
   user: root
   strategy: Recreate
+  dbname: flaskappdb
 
 env:
   - name: FLASK_VERSION
