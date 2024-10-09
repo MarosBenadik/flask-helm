@@ -12,11 +12,11 @@ service:
 
 env:
   - name: FLASK_ENV
-    value: test
+    value: prod
   - name: FLASK_COLOR
     value: green
   - name: FLASK_VERSION
-    value: default
+    value: 2.0.2
 
 ingress:
   enabled: true
