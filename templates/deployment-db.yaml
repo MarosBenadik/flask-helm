@@ -13,6 +13,7 @@ spec:
     metadata:
       labels:
         app: mysql
+        color: {{ .Values.color }}
     spec:
       containers:
       - image: mysql:5.7
