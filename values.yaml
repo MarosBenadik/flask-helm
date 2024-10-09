@@ -17,7 +17,7 @@ db:
   user: root
   strategy: Recreate
   dbname: flaskappdb
-  version: 5.7
+  version: 8.4.2
 
 env:
   - name: FLASK_VERSION
