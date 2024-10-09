@@ -57,7 +57,7 @@ data:
     (6, 6, 'Cooking the Perfect Steak', 'Here are the steps to cooking the perfect medium-rare steak: season it well, use a hot pan, and let it rest.'),
     (7, 7, 'My First Marathon', 'I just completed my first marathon! It was tough, but crossing that finish line was worth every second of training.'),
     (8, 8, 'Photography Tips for Beginners', 'If you’re starting with photography, here are a few tips: pay attention to lighting, and practice your framing.'),
-    (9. 9, 'Starting a Tech Podcast', 'I’m planning to start my own tech podcast soon. The world of technology is evolving so fast, there’s a lot to talk about.'),
+    (9, 9, 'Starting a Tech Podcast', 'I’m planning to start my own tech podcast soon. The world of technology is evolving so fast, there’s a lot to talk about.'),
     (10, 10, 'Top 10 Coding Practices', 'Every developer should follow these coding practices: write readable code, use comments wisely, and test your code.');
 
     INSERT INTO comments (post_id, user_id, content) VALUES
