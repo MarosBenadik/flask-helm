@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ .Values.db.name }}-pvc
+  name: {{ .Values.db.name }}-pvc-{{ .Values.color }}
 spec:
   storageClassName: {{ .Values.storageClassName.name }}
   accessModes:
