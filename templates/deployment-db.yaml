@@ -6,7 +6,6 @@ spec:
   selector:
     matchLabels:
       app: mysql
-      {{- include "flaskapp-chart.selectorLabels" . | nindent 8 }}
   strategy:
     type: {{ .Values.db.strategy }}
   template:
