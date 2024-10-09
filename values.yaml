@@ -12,7 +12,7 @@ service:
 
 db:
   name: mysql-db
-  password: cm9vdA
+  password: cm9vdA==
   user: root
   strategy: Recreate
 
