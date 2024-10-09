@@ -9,7 +9,8 @@ service:
   type: ClusterIP
   port: 5000
   targetPort: 5000  # This will be ignored if Ingress is used
-
+storageClassName:
+  name: local-path
 db:
   name: mysql-db
   password: cm9vdA==
