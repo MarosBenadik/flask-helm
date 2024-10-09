@@ -53,7 +53,7 @@ spec:
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.db.name }}-secret # Kubernetes Secret for MySQL credentials
+                  name: {{ .Values.db.name }}-secret-{{ .Values.color }} # Kubernetes Secret for MySQL credentials
                   key: mysql-root-password
           {{- range $env := .Values.env }}
             - name: {{ $env.name }}
