@@ -17,7 +17,7 @@ spec:
       initContainers:
         - name: db-init
           image: mysql:{{ .Values.db.version }}  # Use MySQL image to have the mysql client available
-          command: ['sh', '-c', 'until mysql -h {{ .Values.db.name }}-service-{{ .Values.color }} -P 3306 -u {{ .Values.db.user }} -p{{ .Values.db.password }} -e "SELECT 1"; do echo "Waiting for database..."; sleep 2; done']
+          command: ['sh', '-c', 'until mysql -h {{ .Values.db.name }}-service-{{ .Values.color }} -P 3306 -u {{ .Values.db.user }} -proot -e "SELECT 1"; do echo "Waiting for database..."; sleep 2; done']
           # This command attempts to connect to the MySQL server and runs a simple query to check if it's up.
           env:
             - name: MYSQL_HOST
