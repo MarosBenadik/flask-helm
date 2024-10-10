@@ -15,6 +15,8 @@ env:
     value: dev
   - name: FLASK_COLOR
     value: green
+  - name: CROSSSERVICE_NAME
+    value: flask-blue-flaskapp-chart
 
 ingress:
   enabled: true
