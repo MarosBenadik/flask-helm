@@ -6,9 +6,6 @@ metadata:
     {{- include "flaskapp-chart.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
-  {{- if .Values.serviceAccount.create }}
-  serviceAccountName: {{ include "flaskapp-chart.fullname" . }}-service-account-{{ .Values.color }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "flaskapp-chart.selectorLabels" . | nindent 6 }}
@@ -21,6 +18,9 @@ spec:
         prometheus.io/path: "/metrics"
         prometheus.io/port: "5000"
     spec:
+      {{- if .Values.serviceAccount.create }}
+      serviceAccountName: {{ include "flaskapp-chart.fullname" . }}-service-account-{{ .Values.color }}
+      {{- end }}
       initContainers:
         - name: db-init
           image: mysql:{{ .Values.db.version }}  # Use MySQL image to have the mysql client available
