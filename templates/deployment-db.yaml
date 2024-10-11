@@ -38,6 +38,6 @@ spec:
           claimName: {{ .Values.db.name }}-pvc-{{ .Values.color }}
       - name: mysql-init-scripts
         configMap:
-          name: mysql-init-scripts  # Reference the ConfigMap here
+          name: mysql-init-scripts-{{ .Values.color }}  # Reference the ConfigMap here
       imagePullSecrets:
       - name: my-dockerhub-secret  # Reference the secret here
