@@ -4,13 +4,9 @@ metadata:
   name: {{ include "flaskapp-chart.fullname" . }}
   labels:
     {{- include "flaskapp-chart.labels" . | nindent 4 }}
-  annotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/path: "/metrics"
-    prometheus.io/port: "5000"
 spec:
   replicas: {{ .Values.replicaCount }}
-  {{- if .Values.serviceAccount.create -}}
+  {{- if .Values.serviceAccount.create }}
   serviceAccountName: {{ include "flaskapp-chart.fullname" . }}-service-account-{{ .Values.color }}
   {{- end }}
   selector:
@@ -20,6 +16,10 @@ spec:
     metadata:
       labels:
         {{- include "flaskapp-chart.selectorLabels" . | nindent 8 }}
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: "/metrics"
+        prometheus.io/port: "5000"
     spec:
       initContainers:
         - name: db-init
@@ -89,6 +89,6 @@ spec:
               memory: 150Mi
             requests:
               cpu: 100m
-              memory: 150Gi
+              memory: 150Mi
       imagePullSecrets:
       - name: my-dockerhub-secret  # Reference the secret here
