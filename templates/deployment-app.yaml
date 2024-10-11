@@ -18,7 +18,6 @@ spec:
         - name: db-init
           image: mysql:{{ .Values.db.version }}  # Use MySQL image to have the mysql client available
           command: ['sh', '-c', 'until mysql -h {{ .Values.db.name }}-service-{{ .Values.color }} -P 3306 -u {{ .Values.db.user }} -proot -e "SELECT 1"; do echo "Waiting for database..."; sleep 2; done']
-          # This command attempts to connect to the MySQL server and runs a simple query to check if it's up.
           env:
             - name: MYSQL_HOST
               value: "{{ .Values.db.name }}-service-{{ .Values.color }}"
@@ -58,19 +57,18 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-            # MySQL environment variables
             - name: MYSQL_HOST
-              value: "{{ .Values.db.name }}-service-{{ .Values.color }}" # Name of your MySQL service in Kubernetes
+              value: "{{ .Values.db.name }}-service-{{ .Values.color }}"
             - name: MYSQL_PORT
               value: "3306"
             - name: MYSQL_DATABASE
-              value: "{{ .Values.db.dbname }}" # Your MySQL database name
+              value: "{{ .Values.db.dbname }}"
             - name: MYSQL_USER
-              value: "{{ .Values.db.user }}" # Your MySQL user
+              value: "{{ .Values.db.user }}"
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.db.name }}-secret-{{ .Values.color }} # Kubernetes Secret for MySQL credentials
+                  name: {{ .Values.db.name }}-secret-{{ .Values.color }}
                   key: mysql-root-password
             - name: FLASK_VERSION
               value: {{ .Values.app.version }}
@@ -79,6 +77,11 @@ spec:
               value: {{ $env.value | quote }}
           {{- end }}
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            limits:
+              cpu: 100m
+              memory: 150Mi
+            requests:
+              cpu: 100m
+              memory: 150Gi
       imagePullSecrets:
       - name: my-dockerhub-secret  # Reference the secret here
