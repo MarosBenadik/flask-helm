@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mysql-init-scripts
+  name: mysql-init-scripts-{{ .Values.color }}
 data:
   init.sql: |
     CREATE DATABASE flaskappdb;
