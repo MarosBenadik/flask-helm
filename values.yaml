@@ -23,6 +23,10 @@ db:
 env:
   - name: FLASK_VERSION
     value: default
+  - name: RABBITMQ_USER
+    value: maros
+  - name: RABBITMQ_PASSWORD
+    value: maros
 ingress:
   enabled: true
   className: localport
