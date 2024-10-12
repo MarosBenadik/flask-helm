@@ -21,6 +21,8 @@ env:
     value: my-rabbitmq.rabbitmq.svc.cluster.local
   - name: RABBIT_MQ_PORT
     value: 5672
+  - name: RABBITMQ_QUEUE
+    value: blue-queue
 
 ingress:
   enabled: true
