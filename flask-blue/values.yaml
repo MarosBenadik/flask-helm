@@ -17,6 +17,12 @@ env:
     value: blue
   - name: CROSSSERVICE_NAME
     value: flask-green-flaskapp-chart
+  - name: RABBIT_MQ_HOST
+    value: my-rabbitmq.rabbitmq.svc.cluster.local
+  - name: RABBIT_MQ_PORT
+    value: 5672
+  - name: RABBITMQ_QUEUE
+    value: green-queue
 
 ingress:
   enabled: true
