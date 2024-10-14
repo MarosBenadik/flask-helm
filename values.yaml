@@ -1,15 +1,14 @@
 replicaCount: 2
-
 image:
   repository: mbenadik/flaskapp
   pullPolicy: Always
   tag: latest
 app:
-  version: 2.0.1
+  version: 2.0.2
 service:
   type: ClusterIP
   port: 5000
-  targetPort: 5000  # This will be ignored if Ingress is used
+  targetPort: 5000 # This will be ignored if Ingress is used
 storageClassName:
   name: local-path
 db:
@@ -19,7 +18,6 @@ db:
   strategy: Recreate
   dbname: flaskappdb
   version: 5.7
-
 env:
   - name: FLASK_VERSION
     value: default
@@ -30,17 +28,14 @@ env:
 ingress:
   enabled: true
   className: localport
-  annotations: 
+  annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
   hosts: []
   tls: []
-
 resources: {}
-
 serviceAccount:
   create: true
   name: ""
-
 autoscaling:
   enabled: false
   minReplicas: 1
