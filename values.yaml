@@ -4,7 +4,7 @@ image:
   pullPolicy: Always
   tag: latest
 app:
-  version: 2.0.7
+  version: 2.0.8
 service:
   type: ClusterIP
   port: 5000
