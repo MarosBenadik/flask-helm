@@ -9,7 +9,9 @@ service:
   type: ClusterIP
   port: 5000
   targetPort: 5000  # This will be ignored if Ingress is used
-
+labels:
+  - name: app
+    name: flask-app-green
 env:
   - name: FLASK_ENV
     value: dev
