@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-external-egress-flask-{{ Values.color }}
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      app: flask-{{ Values.color }}
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - namespaceSelector: {}  # Allows egress to any namespace within the cluster
+        - podSelector: {}  # Allows egress to any Pod within the cluster
