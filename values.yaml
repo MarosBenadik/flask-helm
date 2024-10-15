@@ -11,6 +11,9 @@ service:
   targetPort: 5000 # This will be ignored if Ingress is used
 storageClassName:
   name: local-path
+labels:
+  - name: tempalted
+    name: true
 db:
   name: mysql-db
   password: cm9vdA==
