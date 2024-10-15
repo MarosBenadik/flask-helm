@@ -5,8 +5,7 @@ image:
   pullPolicy: Always
   tag: latest
 labels:
-  - name: app
-    name: flask-app-blue
+  - app: flask-app-blue
 service:
   type: ClusterIP
   port: 5000
