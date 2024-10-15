@@ -10,7 +10,7 @@ service:
   port: 5000
   targetPort: 5000  # This will be ignored if Ingress is used
 labels:
-  - app: flask-app-green
+  flask-app: flask-app-green
 env:
   - name: FLASK_ENV
     value: dev

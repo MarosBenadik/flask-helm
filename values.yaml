@@ -12,7 +12,7 @@ service:
 storageClassName:
   name: local-path
 labels:
-  - templated: true
+  templated: true
 db:
   name: mysql-db
   password: cm9vdA==
