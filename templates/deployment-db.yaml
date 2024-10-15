@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: {{ .Values.db.name }}-deployment-{{ .Values.color }}
 spec:
+  revisionHistoryLimit: 2
   selector:
     matchLabels:
       app: mysql
