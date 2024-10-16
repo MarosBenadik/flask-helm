@@ -11,13 +11,13 @@ spec:
     - Egress
   egress:
     - to:
-        - namespaceSelector: {}  # Allows egress to any namespace within the cluster
+        - namespaceSelector: {} 
     - to:
         - podSelector:
             matchLabels:
           {{- if eq .Values.color "blue" }}
-              flask-app: flask-app-green  # Denies egress traffic to pod with this label
+              flask-app: flask-app-green 
           {{- else }}
               flask-app: flask-app-blue
           {{- end }}
-      action: Deny  # Deny traffic to pods with label flask-app: flask-green
+      action: Deny  
