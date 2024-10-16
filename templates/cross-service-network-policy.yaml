@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: deny-external-egress-flask-{{ .Values.color }}
+  name: deny-crossservice-flask-{{ .Values.color }}
   namespace: default
 spec:
   podSelector:
