@@ -15,9 +15,4 @@ spec:
     - to:
         - podSelector:
             matchLabels:
-          {{- if eq .Values.color "blue" }}
-              flask-app: flask-app-green 
-          {{- else }}
-              flask-app: flask-app-blue
-          {{- end }}
-      action: Deny  
+              flask-app: flask-app-{{ .Values.color }}
