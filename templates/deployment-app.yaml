@@ -124,6 +124,7 @@ spec:
               set -a
               source /mnt/vault-secrets/rabbitmq-creds.env
               set +a
+              sleep 360
               python app.py
           resources:
             limits:
