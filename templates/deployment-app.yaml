@@ -136,6 +136,8 @@ spec:
           volumeMounts:
             - name: vault-secrets
               mountPath: /mnt/vault-secrets
+            - name: vault-token
+              mountPath: /mnt/vault-token
       imagePullSecrets:
         - name: my-dockerhub-secret
       volumes:
