@@ -29,21 +29,43 @@ spec:
       serviceAccountName: {{ include "flaskapp-chart.fullname" . }}-service-account-{{ .Values.color }}
       {{- end }}
       initContainers:
+        - name: vault-init
+          image: vault:latest  # Use the Vault image
+          command: ['sh', '-c']
+          args:
+            - |
+              export VAULT_ADDR='http://vault.vault.svc.cluster.local:8200'  # Set Vault address
+              export VAULT_TOKEN=$(cat /mnt/vault-token/vault-token)  # Get token from mounted secret
+              vault kv get -format=json secret/flask/mysql > /mnt/mysql
+              jq -r '.data | to_entries | map("\(.key)=\(.value)") | .[]' /mnt/mysql > /mnt/vault-secrets/mysql-creds.env
+              vault kv get -format=json secret/flask/rabbitmq > /mnt/rabbitmq
+              jq -r '.data | to_entries | map("\(.key)=\(.value)") | .[]' /mnt/rabbitmq > /mnt/vault-secrets/rabbitmq-creds.env
+          volumeMounts:
+            - name: vault-secrets
+              mountPath: /mnt
+            - name: vault-token
+              mountPath: /mnt/vault-token
         - name: db-init
           image: mysql:{{ .Values.db.version }}  # Use MySQL image to have the mysql client available
-          command: ['sh', '-c', 'until mysql -h {{ .Values.db.name }}-service-{{ .Values.color }} -P 3306 -u {{ .Values.db.user }} -proot -e "SELECT 1"; do echo "Waiting for database..."; sleep 2; done']
+          command: ['sh', '-c']
+          args:
+            - |
+              set -a
+              source /mnt/vault-secrets/mysql-creds.env
+              until mysql -h {{ .Values.db.name }}-service-{{ .Values.color }} -P 3306 -u $MYSQL_USER -p$MYSQL_PASSWORD -e "SELECT 1"; do
+                echo "Waiting for database..."
+                sleep 2
+              done
+          
+          ['sh', '-c', 'until mysql -h {{ .Values.db.name }}-service-{{ .Values.color }} -P 3306 -u {{ .Values.db.user }} -proot -e "SELECT 1"; do echo "Waiting for database..."; sleep 2; done']
           env:
             - name: MYSQL_HOST
               value: "{{ .Values.db.name }}-service-{{ .Values.color }}"
             - name: MYSQL_PORT
               value: "3306"
-            - name: MYSQL_USER
-              value: "{{ .Values.db.user }}"
-            - name: MYSQL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.db.name }}-secret-{{ .Values.color }} # Kubernetes Secret for MySQL credentials
-                  key: mysql-root-password
+          volumeMounts:
+            - name: vault-secrets
+              mountPath: /mnt
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -77,19 +99,19 @@ spec:
               value: "3306"
             - name: MYSQL_DATABASE
               value: "{{ .Values.db.dbname }}"
-            - name: MYSQL_USER
-              value: "{{ .Values.db.user }}"
-            - name: MYSQL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.db.name }}-secret-{{ .Values.color }}
-                  key: mysql-root-password
             - name: FLASK_VERSION
               value: {{ .Values.app.version }}
           {{- range $env := .Values.env }}
             - name: {{ $env.name }}
               value: {{ $env.value | quote }}
           {{- end }}
+          command: ['sh', '-c']
+          args:
+            - |
+              set -a
+              source /mnt/vault-secrets/mysql-creds.env
+              source /mnt/vault-secrets/rabbitmq-creds.env
+              python app.py
           resources:
             limits:
               cpu: 100m
@@ -97,5 +119,14 @@ spec:
             requests:
               cpu: 100m
               memory: 150Mi
+          volumeMounts:
+            - name: vault-secrets
+              mountPath: /mnt
       imagePullSecrets:
-      - name: my-dockerhub-secret  # Reference the secret here
+        - name: my-dockerhub-secret
+      volumes:
+        - name: vault-secrets
+          emptyDir: {}
+        - name: vault-token
+          secret:
+            secretName: vault-token
