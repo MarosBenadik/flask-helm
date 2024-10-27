@@ -30,7 +30,7 @@ spec:
       {{- end }}
       initContainers:
         - name: vault-init
-          image: vault:latest  # Use the Vault image
+          image: vault:1.13.3  # Use the Vault image
           command: ['sh', '-c']
           args:
             - |
