@@ -34,14 +34,6 @@ spec:
                 found && /}/ {exit}
                 found && NF>0 {print $2 "=" $4}
                 ' /mnt/mysql > /mnt/vault-secrets/mysql-creds.env
-              
-              # Get RabbitMQ secrets and convert to env format
-              vault kv get -format=json secret/flask/rabbitmq > /mnt/rabbitmq
-              awk -F'"' '
-                /"data":/{found=1; next} 
-                found && /}/ {exit}
-                found && NF>0 {print $2 "=" $4}
-                ' /mnt/rabbitmq > /mnt/vault-secrets/rabbitmq-creds.env
           volumeMounts:
             - name: vault-secrets
               mountPath: /mnt/vault-secrets
