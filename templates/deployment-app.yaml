@@ -40,11 +40,17 @@ spec:
               ls -al /mnt
               ls -al /mnt/vault-secrets
 
-              sleep 300
+              # Get MySQL secrets and convert to env format
               vault kv get -format=json secret/flask/mysql > /mnt/mysql
-              jq -r '.data | to_entries | map("\(.key)=\(.value)") | .[]' /mnt/mysql > /mnt/vault-secrets/mysql-creds.env
+              while IFS="=" read -r key value; do
+                  echo "${key}=${value}" >> /mnt/vault-secrets/mysql-creds.env
+              done < <(grep -oP '"\K[^"]+(?=":\s*")|(?<=":\s*")[^"]+' /mnt/mysql)
+              
+              # Get RabbitMQ secrets and convert to env format
               vault kv get -format=json secret/flask/rabbitmq > /mnt/rabbitmq
-              jq -r '.data | to_entries | map("\(.key)=\(.value)") | .[]' /mnt/rabbitmq > /mnt/vault-secrets/rabbitmq-creds.env
+              while IFS="=" read -r key value; do
+                  echo "${key}=${value}" >> /mnt/vault-secrets/rabbitmq-creds.env
+              done < <(grep -oP '"\K[^"]+(?=":\s*")|(?<=":\s*")[^"]+' /mnt/rabbitmq)
           volumeMounts:
             - name: vault-secrets
               mountPath: /mnt/vault-secrets
