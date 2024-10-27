@@ -56,8 +56,6 @@ spec:
                 echo "Waiting for database..."
                 sleep 2
               done
-          
-          ['sh', '-c', 'until mysql -h {{ .Values.db.name }}-service-{{ .Values.color }} -P 3306 -u {{ .Values.db.user }} -proot -e "SELECT 1"; do echo "Waiting for database..."; sleep 2; done']
           env:
             - name: MYSQL_HOST
               value: "{{ .Values.db.name }}-service-{{ .Values.color }}"
