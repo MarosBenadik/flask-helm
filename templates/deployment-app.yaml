@@ -44,7 +44,7 @@ spec:
               jq -r '.data | to_entries | map("\(.key)=\(.value)") | .[]' /mnt/rabbitmq > /mnt/vault-secrets/rabbitmq-creds.env
           volumeMounts:
             - name: vault-secrets
-              mountPath: /mnt
+              mountPath: /mnt/vault-secrets
             - name: vault-token
               mountPath: /mnt/vault-token
         - name: db-init
@@ -65,7 +65,7 @@ spec:
               value: "3306"
           volumeMounts:
             - name: vault-secrets
-              mountPath: /mnt
+              mountPath: /mnt/vault-secrets
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -121,7 +121,7 @@ spec:
               memory: 150Mi
           volumeMounts:
             - name: vault-secrets
-              mountPath: /mnt
+              mountPath: /mnt/vault-secrets
       imagePullSecrets:
         - name: my-dockerhub-secret
       volumes:
