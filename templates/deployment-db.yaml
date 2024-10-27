@@ -69,7 +69,7 @@ spec:
           configMap:
             name: mysql-init-scripts-{{ .Values.color }}  
         - name: vault-secrets
-            emptyDir: {}
+          emptyDir: {}
         - name: vault-token
           secret:
             secretName: vault-token
