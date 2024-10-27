@@ -24,7 +24,8 @@ env:
     value: 5672
   - name: RABBITMQ_QUEUE
     value: blue-queue
-
+  - name: VAULT_ADDR
+    value: http://vault.vault.svc.cluster.local:8200
 ingress:
   enabled: true
   className: localport
