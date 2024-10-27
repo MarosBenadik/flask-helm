@@ -42,6 +42,15 @@ spec:
       containers:
       - image: mysql:{{ .Values.db.version }}
         name: mysql
+        command: ['bash', '-c']
+        args:
+          - | 
+            set -a
+            source /mnt/vault-secrets/mysql-creds.env
+            set +a
+            echo "MYSQL_USER is set to $MYSQL_USER"
+            # Start MySQL server
+            exec mysqld
         ports:
         - containerPort: 3306
           name: {{ .Values.db.name }}
