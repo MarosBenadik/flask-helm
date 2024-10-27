@@ -117,13 +117,14 @@ spec:
             - name: {{ $env.name }}
               value: {{ $env.value | quote }}
           {{- end }}
-          command: ['sh', '-c']
+          command: ['bash', '-c']
           args:
             - |
               cat /mnt/vault-secrets/mysql-creds.env >> /mnt/vault-secrets/rabbitmq-creds.env
               set -a
               source /mnt/vault-secrets/rabbitmq-creds.env
               set +a
+              echo $MYSQL_USER
               sleep 360
               python app.py
           resources:
