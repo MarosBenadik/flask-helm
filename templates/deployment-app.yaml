@@ -125,7 +125,6 @@ spec:
               source /mnt/vault-secrets/rabbitmq-creds.env
               set +a
               echo $MYSQL_USER
-              sleep 360
               python app.py
           resources:
             limits:
