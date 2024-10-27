@@ -16,6 +16,37 @@ spec:
         app: mysql
         color: {{ .Values.color }}
     spec:
+      initContainers:
+        - name: vault-init
+          image: vault:1.13.3  # Use the Vault image
+          command: ['sh', '-c']
+          args:
+            - |
+              export VAULT_ADDR='http://vault.vault.svc.cluster.local:8200'
+              export VAULT_TOKEN=$(cat /mnt/vault-token/token)
+              ls -al /mnt
+              ls -al /mnt/vault-secrets
+
+              # Get MySQL secrets and convert to env format
+              vault kv get -format=json secret/flask/mysql > /mnt/mysql
+              awk -F'"' '
+                /"data":/{found=1; next} 
+                found && /}/ {exit}
+                found && NF>0 {print $2 "=" $4}
+                ' /mnt/mysql > /mnt/vault-secrets/mysql-creds.env
+              
+              # Get RabbitMQ secrets and convert to env format
+              vault kv get -format=json secret/flask/rabbitmq > /mnt/rabbitmq
+              awk -F'"' '
+                /"data":/{found=1; next} 
+                found && /}/ {exit}
+                found && NF>0 {print $2 "=" $4}
+                ' /mnt/rabbitmq > /mnt/vault-secrets/rabbitmq-creds.env
+          volumeMounts:
+            - name: vault-secrets
+              mountPath: /mnt/vault-secrets
+            - name: vault-token
+              mountPath: /mnt/vault-token
       containers:
       - image: mysql:{{ .Values.db.version }}
         name: mysql
@@ -33,12 +64,19 @@ spec:
           mountPath: /var/lib/mysql
         - name: mysql-init-scripts
           mountPath: /docker-entrypoint-initdb.d
+        - name: vault-secrets
+          mountPath: /mnt/vault-secrets
       volumes:
-      - name: mysql-persistent-storage
-        persistentVolumeClaim:
-          claimName: {{ .Values.db.name }}-pvc-{{ .Values.color }}
-      - name: mysql-init-scripts
-        configMap:
-          name: mysql-init-scripts-{{ .Values.color }}  # Reference the ConfigMap here
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: {{ .Values.db.name }}-pvc-{{ .Values.color }}
+        - name: mysql-init-scripts
+          configMap:
+            name: mysql-init-scripts-{{ .Values.color }}  
+        - name: vault-secrets
+            emptyDir: {}
+        - name: vault-token
+          secret:
+            secretName: vault-token
       imagePullSecrets:
-      - name: my-dockerhub-secret  # Reference the secret here
+        - name: my-dockerhub-secret
