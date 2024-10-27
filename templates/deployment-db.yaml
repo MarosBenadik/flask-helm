@@ -42,12 +42,6 @@ spec:
       containers:
       - image: mysql:{{ .Values.db.version }}
         name: mysql
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.db.name }}-secret-{{ .Values.color }}
-              key: mysql-root-password
         ports:
         - containerPort: 3306
           name: {{ .Values.db.name }}
