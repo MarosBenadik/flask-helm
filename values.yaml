@@ -22,6 +22,8 @@ db:
 env:
   - name: FLASK_VERSION
     value: default
+  - name: VAULT_ADDR
+    value: http://vault.vault.svc.cluster.local:8200
 ingress:
   enabled: true
   className: localport
