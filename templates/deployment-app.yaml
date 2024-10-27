@@ -123,7 +123,6 @@ spec:
               set -a
               cat /mnt/vault-secrets/mysql-creds.env >> /mnt/vault-secrets/rabbitmq-creds.env
               source /mnt/vault-secrets/rabbitmq-creds.env
-              sleep 600
               python app.py
           resources:
             limits:
