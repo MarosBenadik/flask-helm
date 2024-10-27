@@ -120,9 +120,10 @@ spec:
           command: ['sh', '-c']
           args:
             - |
-              set -a
               cat /mnt/vault-secrets/mysql-creds.env >> /mnt/vault-secrets/rabbitmq-creds.env
+              set -a
               source /mnt/vault-secrets/rabbitmq-creds.env
+              set +a
               python app.py
           resources:
             limits:
