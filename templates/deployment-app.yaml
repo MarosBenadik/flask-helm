@@ -38,6 +38,8 @@ spec:
               export VAULT_TOKEN=$(cat /mnt/vault-token/token)
               ls -al /mnt
               ls -al /mnt/vault-secrets
+
+              sleep 300
               vault kv get -format=json secret/flask/mysql > /mnt/mysql
               jq -r '.data | to_entries | map("\(.key)=\(.value)") | .[]' /mnt/mysql > /mnt/vault-secrets/mysql-creds.env
               vault kv get -format=json secret/flask/rabbitmq > /mnt/rabbitmq
