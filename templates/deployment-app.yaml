@@ -54,10 +54,6 @@ spec:
                 found && /}/ {exit}
                 found && NF>0 {print $2 "=" $4}
                 ' /mnt/rabbitmq > /mnt/vault-secrets/rabbitmq-creds.env
-
-              cat /mnt/vault-secrets/mysql-creds.env
-              cat /mnt/vault-secrets/rabbitmq-creds.env
-
           volumeMounts:
             - name: vault-secrets
               mountPath: /mnt/vault-secrets
