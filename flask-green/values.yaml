@@ -29,7 +29,7 @@ env:
   - name: VAULT_PATH
     value: flask/testsecret
   - name: MINIO_PATH
-    value: 192.168.56.105:32223/
+    value: 192.168.56.105:32223
 ingress:
   enabled: true
   className: localport
