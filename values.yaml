@@ -4,7 +4,7 @@ image:
   pullPolicy: Always
   tag: latest
 app:
-  version: 2.0.9
+  version: 2.1.0
 egress: false
 service:
   type: ClusterIP
