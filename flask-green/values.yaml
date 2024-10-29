@@ -30,6 +30,12 @@ env:
     value: flask/testsecret
   - name: MINIO_PATH
     value: 192.168.56.105:32223
+  - name: MINIO_BUCKET
+    value: flask-app
+  - name: MINIO_ENDPOINT
+    value: minio.minio.svc.cluster.local:9000
+  - name: MINIO_VAULT_PATH
+    value: flask/minio
 ingress:
   enabled: true
   className: localport
